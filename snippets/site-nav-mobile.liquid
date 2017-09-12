@@ -1,0 +1,84 @@
+{% capture mega_menu_trigger %}{{ settings.mega_menu_trigger | downcase }}{% endcapture %}
+
+{% comment %}nav navbar-nav{% endcomment %}
+<ul id="mobile-nav" class="nav navbar-nav">
+  {% for link in linklists.main-menu.links %}
+  {% assign has_sub_menu = false %}
+  {% assign has_sub_categories = false %}
+  {% assign parent_link_active = false %}
+  {% assign child_list_handle = link.title | handle %}
+  {% capture link_title %}{{ link.title | downcase }}{% endcapture %}
+  
+  {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+    {% assign has_sub_menu = true %}
+    {% for l in linklists[child_list_handle].links %}
+      {% if handle != blank and handle == l.object.handle %}
+        {% assign parent_link_active = true %}
+      {% elsif page_title == l.title %}
+        {% assign parent_link_active = true %}
+      {% endif %}
+    {% endfor %}
+    {% comment %} removed tags submenu - because we have nice filter section for that {% endcomment %}
+    {% comment %}{% elsif link.type == 'collection_link' and link.object.all_tags.size > 0 %}{% endcomment %}
+    {% comment %}{% assign has_sub_categories = false %} {% endcomment %}
+  {% endif %}
+  <li class="{% if link.active or parent_link_active %} active{% endif %}{% if has_sub_menu or has_sub_categories or link_title == mega_menu_trigger %} dropdown{% endif %}{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}">
+    <a href="{{ link.url }}" {% if has_sub_menu or has_sub_categories or link_title == mega_menu_trigger %}  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" {% endif %}>{{ link.title }}{% if has_sub_menu or has_sub_categories or link_title == mega_menu_trigger %} <i class="fa fa-angle-down open-submenu"></i> <i class="fa fa-angle-up close-submenu"></i>{% endif %}</a> 
+  
+    {% if has_sub_menu or has_sub_categories %}
+      <ul class="dropdown-menu" role="menu">
+        {% if has_sub_menu %}
+          {% for l in linklists[child_list_handle].links %}
+          <li class="{% if l.active %} active{% endif %}">
+            <a href="{{ l.url }}">{{ l.title }}</a>
+          </li>
+          {% endfor %}
+        {% elsif has_sub_categories %}
+          {% for tag in link.object.all_tags %}
+          <li class="{% if current_tags contains tag %} active{% endif %}">
+            <a href="{{ link.url }}/{{ tag | handle }}">{{ tag }}</a>
+          </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    {% endif %}
+
+    {% if link_title == mega_menu_trigger %}
+      <ul class="dropdown-menu" role="menu">
+
+        {% if linklists.[settings.mega_menu_submenu1].title != "" %}
+          <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-submenu-toggle" role="button" aria-expanded="false">{{ linklists.[settings.mega_menu_submenu1].title }} <i class="fa fa-angle-down open-submenu"></i> <i class="fa fa-angle-up close-submenu"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              {% for link in linklists.[settings.mega_menu_submenu1].links %}
+                <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+
+        {% if linklists.[settings.mega_menu_submenu2].title != "" %}
+          <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-submenu-toggle" role="button" aria-expanded="false">{{ linklists.[settings.mega_menu_submenu2].title }} <i class="fa fa-angle-down open-submenu"></i> <i class="fa fa-angle-up close-submenu"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              {% for link in linklists.[settings.mega_menu_submenu2].links %}
+                <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+
+        {% if linklists.[settings.mega_menu_submenu3].title != "" %}
+          <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-submenu-toggle" role="button" aria-expanded="false">{{ linklists.[settings.mega_menu_submenu3].title }} <i class="fa fa-angle-down open-submenu"></i> <i class="fa fa-angle-up close-submenu"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              {% for link in linklists.[settings.mega_menu_submenu3].links %}
+                <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+
+      </ul>
+    {% endif %}
+
+  </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,85 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+{% assign file_extension = 'png' %}
+
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+
+{% for option in product.options %}
+  {% if option == swatch %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+    <style>
+      label[for="product-select-option-{{ option_index }}"] { display: none; }
+      #product-select-option-{{ option_index }} { display: none; }
+      #product-select-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
+    </style>
+    <script>$(window).load(function() { $('.selector-wrapper:eq({{ option_index }})').hide(); });</script>
+
+    {% assign downcased_option = swatch | downcase %}
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% if settings.show_color_swatch == true %}
+        {% assign is_color = true %}
+      {% endif %}
+    {% endif %}
+
+  {% endif %}
+{% endfor %}
+
+{% unless found_option %}
+<div class="swatch error">
+  <p>You included the snippet swatch.liquid with the name of a product option — <code>'{{ swatch }}'</code> — that does not belong to your product.</p>
+  <p>Use <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+  <p><strong>This is case-sensitive!</strong> Do not put in <code>'color'</code> if your product option name is <code>'Color'</code>.</p>
+</div>
+{% else %}
+<div class="swatch clearfix" data-option-index="{{ option_index }}">
+  <label class="swatch-title">{{ swatch }}</label>
+
+    <div class="btn-group" data-toggle="buttons">
+      {% assign values = '' %}
+      {% for variant in product.variants %}
+
+        {% assign value = variant.options[option_index] %}
+        {% unless values contains value %}
+          {% assign values = values | join: ',' %}
+          {% assign values = values | append: ',' | append: value %} 
+          {% assign values = values | split: ',' %}
+          
+
+          {% assign active_option = false %} 
+          {% if (variant == product.selected_or_first_available_variant) %}
+            {% assign active_option = true %} 
+          {% endif %}
+
+          <label {% if is_color %} data-toggle="tooltip" data-placement="top" {% endif %} title="{{ value }}" data-value="{{ value | escape }}" class="btn btn-primary  swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+            <input autocomplete="off" id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}" {% unless variant.available %}disabled{% endunless %} /> 
+        
+            {% if is_color %}
+              <span style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})"></span>            
+            {% else %}
+              {{ value | escape }}  
+            {% comment %}
+            <label for="swatch-{{ option_index }}-{{ value | handle }}">
+              {{ value }}
+              <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+            </label>
+            {% endcomment %}
+            {% endif %}
+          </label>
+        {% endunless %}
+        {% if variant.available %}
+          <script>
+            jQuery('.swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
+          </script>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+</div>
+
+{% endunless %}

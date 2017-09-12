@@ -1,0 +1,232 @@
+<!-- /templates/index.liquid -->
+{% comment %}
+This is the homepage of your site.
+More info on global variables (available on all templates):
+- http://docs.shopify.com/themes/liquid-variables/global
+{% endcomment %}
+
+{% assign slider_class = "normal-slider" %}
+
+  <style type="text/css">
+    body #slider{visibility: hidden;}
+    body #slider.owl-loaded{visibility: visible;}
+
+    {% if settings.slideshow_type == "slideshow_type_fullscreen" %}
+      body #header{border-bottom: none}
+      body .free-shipping-wrap .fa, body .free-shipping-wrap{color: {{ settings.slide_text_color }};border: none;}
+      body .slideshow_type_fullscreen .search-activate.active a .fa{color: #ccc}
+      body .search-activate a .fa{color: {{ settings.slide_text_color }} }
+      body #main-navigation > li > a{color: {{ settings.slide_text_color }} }
+      body #main-navigation > li > a:hover{color: {{ settings.slide_text_color }};border-color: {{ settings.slide_text_color }}}
+      
+      body #header .navbar-brand{color: {{ settings.slide_text_color }} }
+      {% assign slider_class = "overflow-slider" %}
+    {% endif %}
+
+    body #slider .item-text p, body #slider .item-text h2{color: {{ settings.slide_text_color }} }
+    body #slider .item-text a{color: {{ settings.slide_button_color_text }} ; background-color: {{ settings.slide_button_color }} }
+    body #slider .item-text a:hover{color: {{ settings.slide_button_color_text_hover }} ; background-color: {{ settings.slide_button_color_hover }} }
+  </style>
+
+
+<div id="slider" class="{{ slider_class }}">
+  {% if settings.slide_1_show == true %}
+    <div class="item">      
+      <img src="{{ 'slide_1.jpg' | asset_url }}" />
+      <div class="item-text {{ settings.slide_1_position }}">
+        <h2>{{ settings.slide_1_title }}</h2>
+        <p>{{ settings.slide_1_subtitle }}</p>
+        <a href="{{ settings.slide_1_link }}" class="btn btn-default">{{ settings.slide_1_button_text }}</a>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if settings.slide_2_show == true %}
+    <div class="item">      
+      <img src="{{ 'slide_2.jpg' | asset_url }}" />
+      <div class="item-text {{ settings.slide_2_position }}">
+        <h2>{{ settings.slide_2_title }}</h2>
+        <p>{{ settings.slide_2_subtitle }}</p>
+        <a href="{{ settings.slide_2_link }}" class="btn btn-default">{{ settings.slide_2_button_text }}</a>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if settings.slide_3_show == true %}
+    <div class="item">      
+      <img src="{{ 'slide_3.jpg' | asset_url }}" />
+      <div class="item-text {{ settings.slide_3_position }}">
+        <h2>{{ settings.slide_3_title }}</h2>
+        <p>{{ settings.slide_3_subtitle }}</p>
+        <a href="{{ settings.slide_3_link }}" class="btn btn-default">{{ settings.slide_3_button_text }}</a>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if settings.slide_4_show == true %}
+    <div class="item">      
+      <img src="{{ 'slide_4.jpg' | asset_url }}" />
+      <div class="item-text {{ settings.slide_4_position }}">
+        <h2>{{ settings.slide_4_title }}</h2>
+        <p>{{ settings.slide_4_subtitle }}</p>
+        <a href="{{ settings.slide_4_link }}" class="btn btn-default">{{ settings.slide_4_button_text }}</a>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if settings.slide_5_show == true %}
+    <div class="item">      
+      <img src="{{ 'slide_5.jpg' | asset_url }}" />
+      <div class="item-text {{ settings.slide_5_position }}">
+        <h2>{{ settings.slide_5_title }}</h2>
+        <p>{{ settings.slide_5_subtitle }}</p>
+        <a href="{{ settings.slide_5_link }}" class="btn btn-default">{{ settings.slide_5_button_text }}</a>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row">
+    <div id="main" role="main" class="col-sm-12">  
+
+    {% if settings.banners_show == true %}
+
+      <div class="banners row homepage-section">
+
+        <div class="banner col-sm-4" >
+          <a href="{{ settings.banner_1_link }}">
+            <div class="back" style="background-image:url( {{ 'banner_1.jpg' | asset_url }} )"></div>
+            <div class="shadow"></div>
+            <div>
+              <span>{{ settings.banner_1_subtitle }}</span>
+              <h3>{{ settings.banner_1_title }}</h3>
+            </div>
+          </a>
+        </div>
+
+        <div class="banner col-sm-4">
+          <a href="{{ settings.banner_2_link }}" >
+            <div class="back" style="background-image:url( {{ 'banner_2.jpg' | asset_url }} )"></div>
+            <div class="shadow"></div>
+            <div>
+              <span>{{ settings.banner_2_subtitle }}</span>
+              <h3>{{ settings.banner_2_title }}</h3>
+            </div>
+          </a>
+        </div>
+
+        <div class="banner col-sm-4">
+          <a href="{{ settings.banner_3_link }}">
+            <div class="back" style="background-image:url( {{ 'banner_3.jpg' | asset_url }} )"></div>
+            <div class="shadow"></div>
+            <div>
+              <span>{{ settings.banner_3_subtitle }}</span>
+              <h3>{{ settings.banner_3_title }}</h3>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+    {% endif %}
+
+    {% if settings.featured_products_show == true %}
+
+      <h3 class="homepage-section-title">{{ settings.featured_products_title }}</h3>
+      {% assign featured_products = collections.[[settings.featured_products_collection]].products | default: collections.all.products %}
+      <div class="products-carousel homepage-section">
+        {% for product in featured_products limit:settings.featured_products_count %}
+          {% include 'product-grid-item' %}
+        {% endfor %}
+      </div>
+
+    {% endif %}
+
+    {% if settings.brands_show == true %}
+      <h3 class="homepage-section-title">{{ settings.brands_title }}</h3>
+      <div class="logos-carousel homepage-section">
+
+        {% if brand_1.png != "" %}
+          <div class="item"><a href="{{ settings.brand_1_link }}"><img src="{{ 'brand_1.png' | asset_url }}"></a></div>
+        {% endif %}
+
+        {% if brand_2.png != "" %}
+          <div class="item"><a href="{{ settings.brand_2_link }}"><img src="{{ 'brand_2.png' | asset_url }}"></a></div>
+        {% endif %}
+
+        {% if brand_3.png != "" %}
+          <div class="item"><a href="{{ settings.brand_3_link }}"><img src="{{ 'brand_3.png' | asset_url }}"></a></div>
+        {% endif %}
+
+        {% if brand_4.png != "" %}
+          <div class="item"><a href="{{ settings.brand_4_link }}"><img src="{{ 'brand_4.png' | asset_url }}"></a></div>
+        {% endif %}
+
+        {% if brand_5.png != "" %}
+          <div class="item"><a href="{{ settings.brand_5_link }}"><img src="{{ 'brand_5.png' | asset_url }}"></a></div>
+        {% endif %}
+
+        {% if brand_6.png != "" %}
+          <div class="item"><a href="{{ settings.brand_6_link }}"><img src="{{ 'brand_6.png' | asset_url }}"></a></div>
+        {% endif %}
+        
+      </div>
+    {% endif %}
+
+    {% if settings.products_tab_show == true %}
+
+      <div role="tabpanel" class="homepage-tabs homepage-section">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab" class="btn-fancy">{{ settings.products_tab_1_title | default: "TAB 1" }}</a></li>
+          <li role="presentation"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab" class="btn-fancy">{{ settings.products_tab_2_title | default: "TAB 2" }}</a></li>
+          <li role="presentation"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab" class="btn-fancy">{{ settings.products_tab_3_title | default: "TAB 3" }}</a></li>
+        </ul>
+        
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="tab-1">
+            <div class="row"> 
+              {% assign tab1_products = collections.[[settings.products_tab_1_collection]].products | default: collections.all.products %}
+              {% for product in tab1_products limit:settings.products_tab_count %}
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">{% include 'product-grid-item' %}</div>
+              {% endfor %}
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane fade " id="tab-2">
+            <div class="row"> 
+              {% assign tab2_products = collections.[[settings.products_tab_2_collection]].products | default: collections.all.products %}
+              {% for product in tab2_products limit:settings.products_tab_count %}
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">{% include 'product-grid-item' %}</div>
+              {% endfor %}
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="tab-3">
+            <div class="row"> 
+              {% assign tab3_products = collections.[[settings.products_tab_3_collection]].products | default: collections.all.products %}
+              {% for product in tab3_products limit:settings.products_tab_count %}
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">{% include 'product-grid-item' %}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% endif %}
+
+    {% if settings.latest_news_show == true %}
+      <h3 class="homepage-section-title">{{ settings.latest_news_title }}</h3>
+      <div class="row latest-news homepage-section">
+        {% assign latest_news = blogs.[[settings.latest_news_blog]].articles | default: blogs.news.articles %}
+        {% for article in latest_news limit:4 %}<div class="col-sm-6 col-md-4 col-lg-3 text-center {% if forloop.index == 3 %}hidden-sm hidden-xs{%endif%} {% if forloop.last == true %}hidden-md hidden-sm hidden-xs{%endif%}">{% include 'blog-post-card' %}</div>​{% endfor %}
+      </div>
+    {% endif %}
+
+    {% if settings.instagram_show %}
+      <h3 class="homepage-section-title">{{ settings.instagram_title }}</h3>
+      <div id="instafeed" class="homepage-section"></div>
+      <p class="text-center homepage-section"><a class="btn-fancy" href="{{ settings.instagram_button_link }}" title="{{ settings.instagram_button_caption }}" target="_blank">{{ settings.instagram_button_caption | default: "VIEW GALLERY" }}</a></p>
+    {% endif %}
+    </div>
+  </div>
+</div>

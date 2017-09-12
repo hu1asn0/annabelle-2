@@ -1,0 +1,78 @@
+<!-- /templates/search.liquid -->
+{% comment %}
+
+  To return only products or pages in results:
+    - http://docs.shopify.com/manual/configuration/store-customization/return-only-product-in-storefront-search-results
+    - Or manually add type=product or type=page to the search URL as a parameter
+
+{% endcomment %}
+
+{% comment %}
+  Set grid_results to true and set search results as a grid instead of a list.
+  This works well when your search is only for products.
+{% endcomment %}
+{% assign grid_results = false %}
+
+{% comment %}
+  Check to enforce respond.js
+{% endcomment %}
+{% assign respond_js_secret_key = shop.domain | md5 %}
+{% unless search.terms == respond_js_secret_key %}
+
+
+{% include 'breadcrumbs' %}
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row">
+    <div id="main" role="main" class="col-sm-12">
+      {% comment %}
+        Avoid accessing search.results before the opening paginate tag.
+        If you do, the pagination of results will be broken.
+      {% endcomment %}
+      {% paginate search.results by 10 %}
+
+        {% if search.performed %}
+          {% if search.results_count == 0 %}
+            <h1>{{ 'general.search.no_results_html' | t: terms: search.terms }}</h1>
+          {% else %}
+            <h1>{{ 'general.search.results_for_html' | t: terms: search.terms }}</h1>
+          {% endif %}
+        {% else %}
+          <h1>{{ 'general.search.title' | t }}</h1>
+        {% endif %}
+
+      {% comment %}  {% include 'search-bar' %}{% endcomment %}
+
+        {% if search.performed %}
+          {% if search.results_count > 0 %}
+            <ul id="product-list" class="{{ settings.collection_layout_type }} {% if settings.show_color_swatches_on_collection_page %} show-swatch {% endif %}">
+              {% for product in search.results %}
+                <li>{% include 'product-grid-item' %}</li>
+              {% endfor %}
+            </ul>
+
+            <div class="clearfix"></div> 
+
+            {% if paginate.pages > 1 %}
+              <div class="pagination">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&#xf104;' | replace: 'Next &raquo;', '&#xf105;' }}
+              </div>
+            {% endif %}
+
+          {% endif %}
+        {% endif %}
+
+      {% endpaginate %}
+
+      {% for product in search.results %}
+        {% include 'product-quick-view' %}
+      {% endfor %}
+
+      {% else %}
+        {% include 'respond' %}
+        {% layout none %}
+      {% endunless %}
+
+    </div>
+  </div>
+</div>

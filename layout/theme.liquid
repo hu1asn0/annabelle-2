@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
+  <title>
+  {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>  
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}" />
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  {{ content_for_header }}
+
+  <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family={{ settings.main_font_url }}|{{ settings.accent_font_url }}'>
+  
+  <link rel='stylesheet' type='text/css' href="{{ 'bootstrap.min.css' | asset_url }}">
+  <link rel='stylesheet' type='text/css' href="{{ 'css_style.scss.css' | asset_url }}">
+  
+  <!--[if lt IE 9]>
+  {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+  <![endif]-->
+
+  {% if settings.use_favicon %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/x-icon" />
+  {% endif %}
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <script type="text/javascript" src="{{ 'js_script.js' | asset_url }}"></script>
+<!--Coins loading quicker -->
+<!--  <script type="text/javascript" src="//d1liekpayvooaz.cloudfront.net/apps/coin/coin.js?shop={{shop.permanent_domain}}"></script> -->
+  
+<!-- Hotjar Tracking Code for dailyurbanstore.com -->
+
+  
+</head>
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+<div id="site-wrapper">
+  <div id="site-canvas" class="snappy">
+
+    <div id="site-menu">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+
+            {% include 'site-nav-mobile' %}          
+
+            {% if settings.show_multiple_currencies %}
+              <hr/>
+              {% include 'currencies-switcher' %}
+            {% endif %}
+           
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <nav id="navigation" class="navbar navbar-inverse navbar-static-top">
+      <div class="{{ settings.theme_layout_type }}">
+        <div id="mobile-navigation" class="navbar-header">
+
+          <a href="#" id="menu-toggle" class="collapsed navbar-btn left" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <i class="fa fa-bars open-nav"></i>
+            <i class="fa fa-close close-nav"></i>
+          </a>
+
+          <a href="#" id="open-mobile-search" class="collapsed navbar-btn right" aria-expanded="false">
+            <span class="sr-only">Toggle Search</span>
+            <i class="fa fa-search"></i>
+          </a>
+
+          <a href="/cart" class="navbar-btn"><i class="fa fa-shopping-cart"></i></a>
+
+          {% if shop.customer_accounts_enabled %}            
+            {% if customer %}
+              <a href="/account" class="navbar-btn"><i class="fa fa-user"></i></a>                
+            {% else %}
+              {{ '<i class="fa fa-user"></i>' | customer_login_link }}
+            {% endif %}
+          {% endif %}
+
+        </div>
+
+        <div id="navbar-collapse" class="collapse navbar-collapse" >
+          {% if settings.show_multiple_currencies %}
+            <ul class="nav navbar-nav">
+              <li>{% include 'currencies-switcher' %}</li>
+            </ul>
+          {% endif %}
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><div id="coin-container" class="dropdown-toggle"></div></li>
+            {% if shop.customer_accounts_enabled %}            
+                {% if customer %}
+                  <li><a href="/account"><i class="fa fa-user"></i> {{ customer.first_name }}</a></li>                
+                {% else %}
+                <li>
+                  {{ 'layout.customer.log_in' | t | customer_login_link }}
+                </li>
+                <li>
+                  {% if shop.customer_accounts_optional %}
+                    {{ 'layout.customer.create_account' | t | customer_register_link }}
+                  {% endif %}                
+                </li>
+              {% endif %}
+            {% endif %}          
+            <li class="has-dropdown">
+              <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"><i class="fa fa-newspaper-o"></i> {{ general.newsletter_form.title | t }}</a>
+              <ul class="dropdown-menu" role="menu">
+                <li>{{ 'general.newsletter_form.title' | t }}</li>
+                <li>
+                  {{ settings.newsletter_text }}
+                  <form action="{{ settings.newsletter_link }}" method="post" target="_blank">
+                    <div class="form-group">
+                      <input type="email" placeholder="{{ 'general.newsletter_form.email_label' | t }}" name="EMAIL" class="form-control" aria-label="{{ 'general.newsletter_form.email_label' | t }}">
+                      <input type="submit" value="{{ 'general.newsletter_form.submit' | t }}" class="form-control" />
+                    </div>
+                  </form>
+                </li>
+              </ul>
+            </li>
+           
+            <li class="has-dropdown">
+              <a id="CartDropdown" href="/cart" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-cart"></i> <span id="CartCount">{{ cart.item_count }}</span> {{ 'cart.general.item' | t: count: cart.item_count }} (<span id="CartCost">{{ cart.total_price | money }}</span>)</a>
+              <ul id="CartContainer" class="dropdown-cart dropdown-menu" role="menu">
+                <li>{{ cart.general.title | t }}</li>
+                <li>
+                  {% if cart.item_count > 0 %}
+
+                  <table class="table">
+                    {% for item in cart.items %}
+                    <tr>
+                      <td class="product-small-image"><a href="{{ item.url }}"><img src="{{ item | img_url: 'thumb' }}" alt="{{ item.title | escape }}"></a></td>
+                      <td>
+                        <a href="{{ item.url }}" class="name">{{ item.product.title }}</a> <br>
+                        <span class="seconday"><span class="quantity">{{ 'cart.label.quantity' | t }}:</span> {{ item.quantity }} </span><br>
+                        <span class="seconday"><span class="money">{{ item.price | money }}</span></span>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                  <div class="subtotal-wrap">
+                    {{ 'cart.general.subtotal' | t }}: <span class="pull-right money">{{ cart.total_price | money }}</span>
+                  </div>
+                  <div class="text-center">
+                    <a href="/cart" class="btn btn-default">{{ 'cart.general.view_cart' | t }}</a>
+                  </div>
+                  {% else %}
+                    <div>{{ 'cart.general.empty' | t }}</div>
+                  {% endif %}
+
+                </li>
+              </ul>
+            </li>
+            {% if customer %}
+              <li>{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>
+            {% endif %}
+          </ul>        
+        </div>
+
+      </div>
+    </nav>
+
+    <div id="header" class="container-fluid {{ settings.slideshow_type }}">
+      {% if settings.theme_layout_type == "container" %}
+      <div class="row">
+        <div class="{{ settings.theme_layout_type }}">
+      {% endif %}
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 navbar-brand-wrap">
+
+            <form action="/search" method="get" class="mobile-search-form hidden" role="search" >
+              <a href="#" class="close-search"><i class="fa fa-close"></i></a>
+              <input name="q" type="search" id="search-field" class="form-control input-lg" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}" />        
+            </form>
+
+            <a class="navbar-brand" href="{{ shop.url }}">
+              {% if settings.use_custom_logo == false %}
+                {{ shop.name }}
+              {% else %}
+                <img src="{{ 'logo.png' | asset_url }}" class="logo-image" />
+                <img src="{{ 'logo@2.png' | asset_url }}" class="logo-image-retina" height="{{ settings.logo_height }}px" />
+              {% endif %}
+            </a>
+
+          </div>
+
+          <div class="col-sm-6 text-right navbar-shipping-search-wrap ">
+            <div class="row">
+              <div class="col-xs-12 col-sm-9 free-shipping-wrap">
+                <div class="free-shipping">
+                  {{ settings.free_shipping_message }}
+                  <form action="/search" method="get" class="search-form" role="search" style="display:none">
+                    <input name="q" type="search" id="search-field" class="form-control input-lg" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}" />        
+                  </form>
+                </div>
+              </div>
+              <div class="col-sm-3 text-center search-activate hidden-xs">
+                <a href="#"><i class="fa fa-search"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% if settings.theme_layout_type == "container" %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div id="menu" class="navbar">
+      <div class="{{ settings.theme_layout_type }}">
+        <div class="row">
+        {% include 'site-nav' %}
+       </div>
+      </div>
+    </div>
+
+    {{ content_for_layout }}
+    
+    <footer class="footer">
+      <div class="{{ settings.theme_layout_type }}">    
+        <div class="row">
+          <div class="col-sm-8 footer-col">
+            <div class="row">
+              <div class="col-xs-6 col-md-3">
+                {% if linklists.[settings.footer_menu_1].title != "" %}
+                  <h3>{{ linklists.[settings.footer_menu_1].title }}</h3>
+                  <ul>
+                  {% for link in linklists.[settings.footer_menu_1].links %}
+                    <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+
+              <div class="col-xs-6 col-md-3">
+                {% if linklists.[settings.footer_menu_2].title != "" %}
+                  <h3>{{ linklists.[settings.footer_menu_2].title }}</h3>
+                  <ul>
+                  {% for link in linklists.[settings.footer_menu_2].links %}
+                    <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+
+              <div class="col-xs-6 col-md-3">
+                {% if linklists.[settings.footer_menu_3].title != "" %}
+                  <h3>{{ linklists.[settings.footer_menu_3].title }}</h3>
+                  <ul>
+                  {% for link in linklists.[settings.footer_menu_3].links %}
+                    <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+
+              <div class="col-xs-6 col-md-3">
+                {% if linklists.[settings.footer_menu_4].title != "" %}
+                  <h3>{{ linklists.[settings.footer_menu_4].title }}</h3>
+                  <ul>
+                  {% for link in linklists.[settings.footer_menu_4].links %}
+                    <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 footer-stay-connected footer-col">
+            <h3>{{ settings.social_title }}</h3>
+            <ul class="social-icons">
+              {% if settings.social_facebook != "" %}
+              <li><a target="_blank" href="{{ settings.social_facebook }}"><i class="fa fa-facebook"></i></a></li>
+              {% endif %}
+
+              {% if settings.social_twitter != "" %}
+              <li><a target="_blank" href="{{ settings.social_twitter }}"><i class="fa fa-twitter"></i></a></li>
+              {% endif %}
+
+              {% if settings.social_instagram != "" %}
+              <li><a target="_blank" href="{{ settings.social_instagram }}"><i class="fa fa-instagram"></i></a></li>
+              {% endif %}
+
+              {% if settings.social_pinterest != "" %}
+              <li><a target="_blank" href="{{ settings.social_pinterest }}"><i class="fa fa-pinterest"></i></a></li>
+              {% endif %}
+
+              {% if settings.social_googleplus != "" %}
+              <li><a target="_blank" href="{{ settings.social_googleplus }}"><i class="fa fa-google-plus"></i></a></li>
+              {% endif %}
+            </ul>
+
+            {% if settings.newsletter_footer %}
+            <div class="newsletter">
+              <h3>{{ 'general.newsletter_form.title' | t }}</h3>
+              <p class="newsletter-info">{{ settings.newsletter_text }}</p>
+              <div class="row">
+                <div class="col-sm-12">
+                  <form action="{{ settings.newsletter_link }}" method="post" target="_blank" class="input-group ">
+                    <input value="" placeholder="{{ 'general.newsletter_form.email_label' | t }}" name="EMAIL" class="form-control" placeholder="{{ 'general.newsletter_form.email_label' | t }}" type="email" />
+                    <span class="input-group-btn">
+                      <input class="btn btn-default" value="{{ 'general.newsletter_form.submit' | t }}" name="subscribe" type="submit">
+                    </span>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid ">
+        <div class="row">
+          <div class="col-sm-12 copyright">
+            <div class="{{ settings.theme_layout_type }}">
+              <div class="row">
+                <div class="col-sm-12 text-center">
+                  {{ settings.copyright_message }} {{ powered_by_link }} 
+                </div>       
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div> <!-- site-canvas -->
+</div> <!-- site-wrapper -->
+
+  {% comment %}Shopify does not support Internet Explorer 6 nor 7. It does encourage themes to support IE8 until the end of 2014.{% endcomment %}
+  <!--[if lt IE 8]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div id="product-zoom" class="modal-zoom" role="dialog" aria-hidden="true">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="button" class="zoom-close" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> </button>
+
+          <button type="button" class="zoom-cmd zoom-next"> <i class="fa fa-angle-right"></i> </button>
+          <button type="button" class="zoom-cmd zoom-prev"> <i class="fa fa-angle-left"></i> </button>
+          <img src="{{ 'img_load.gif' | asset_url }}" class="zoom-img-load"/>
+          <div class="modal-zoom-container">
+            <img src="" class="zoom-img img-responsive" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  {% if settings.layout_type == "2" or settings.layout_type == "3" %}
+  <div id="size-chart-modal" class="modal-zoom" role="dialog" aria-hidden="true">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <button type="button" class="zoom-close" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> </button>
+          <div class="modal-zoom-container">
+            <img src="{{ 'sizechart.jpg' | asset_url }}" class="zoom-img img-responsive" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% include 'newsletter' %}
+
+  {% comment %} CUSTOM CSS {% endcomment %}
+  
+  <link rel='stylesheet' type='text/css' href="{{ 'bootstrap-select.min.css' | asset_url }}">
+  <link rel='stylesheet' type='text/css' href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel='stylesheet' type='text/css' href="{{ 'owl.carousel.css' | asset_url }}">  
+  
+  {% comment %} CUSTOM JavaScript {% endcomment %}  
+
+  <script type="text/javascript" src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+  {% if template contains 'customers' %}
+    <script type="text/javascript" src="{{ 'customer_area.js'  | shopify_asset_url }}"></script>
+  {% endif %}  
+
+  <script type="text/javascript" src="{{ 'option_selection.js' | shopify_asset_url }}"></script>  
+  <script type="text/javascript" src="{{ 'modernizr.min.js' | asset_url }}"></script>
+  <script type="text/javascript" src="{{ 'bootstrap-select.min.js' | asset_url }}"></script>
+  <script type="text/javascript" src="{{ 'jquery.sqrlcarousel.js' | asset_url }}"></script>
+  <script type="text/javascript" src="{{ 'js_imagesloaded.pkgd.js' | asset_url }}"></script>
+  {% if settings.instagram_show %}
+  <script type="text/javascript" src="{{ 'instafeed.min.js' | asset_url }}"></script>
+  {% endif %}
+  <script type="text/javascript" src="{{ 'owl.carousel.min.js' | asset_url }}"></script>  
+  
+  <script type="text/javascript" src="{{ 'bootstrap.min.js' | asset_url }}"></script>
+
+  {% comment %}
+    Ajaxify your cart with this plugin.
+    Documentation:
+      - http://shopify.com/timber#ajax-cart
+  {% endcomment %}
+
+  {% if settings.ajax_cart_enable %}
+  
+    <script type="text/javascript" src="{{ 'handlebars.min.js' | asset_url }}"></script>
+    {% include 'ajax-cart-template' %}
+    <script type="text/javascript" src="{{ 'ajax-cart.js' | asset_url }}"></script>    
+
+    <script>
+      jQuery(function($) {
+        ajaxCart.init({
+          formSelector: '#AddToCartForm',
+          cartContainer: '#CartContainer',
+          addToCartSelector: '#AddToCart',
+          cartCountSelector: '#CartCount',
+          cartCostSelector: '#CartCost',
+          moneyFormat: {{ shop.money_format | json }},
+          enableQtySelectors: false
+        });
+      });
+
+      jQuery('body').on('ajaxCart.afterCartLoad', function(evt, cart) {
+        // Bind to 'ajaxCart.afterCartLoad' to run any javascript after the cart has loaded in the DOM
+        $('#CartDropdown').dropdown();
+        $('#CartDropdown').dropdown('toggle');
+        // scroll to top - to see cart
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        // find open quick view window and close it
+        $('.quick-view.in').modal('hide');
+      });
+    </script>
+  {% endif %}
+
+  <script type="text/javascript">
+    $(function(){
+      // GLOBAL CONSTS
+      Shopify.moneyFormat = {{ shop.money_format | json }};
+
+      {% if newHash %}
+        $(function() {
+          timber.updateHash('{{ newHash }}');
+        });
+      {% endif %}
+      {% if resetPassword %}
+        $(function() {
+          timber.resetPasswordSuccess();
+        });
+      {% endif %}
+
+      /* Product Tag Filters - Good for any number of filters on any type of collection page.
+      Give you product tag filter select element a class of coll-filter.
+      Give your collection select a class of coll-picker.
+      Brought to you by Caroline Schnapp. */
+
+      Shopify.queryParams = {};
+      if (location.search.length) {
+        for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+          aKeyValue = aCouples[i].split('=');
+          if (aKeyValue.length > 1) {
+            Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+          }
+        }
+      }
+      jQuery('.coll-picker').change(function() {
+        if (jQuery(this).val()) {
+          location.href = '/collections/' + jQuery(this).val();
+        }
+        else {
+          location.href = '/collections/all';
+        }
+      });
+      var collFilters = jQuery('.coll-filter');
+      collFilters.change(function() {
+        delete Shopify.queryParams.page;
+        var newTags = [];
+        collFilters.each(function() {
+          if (jQuery(this).val()) {
+            newTags.push(jQuery(this).val());
+          }
+        });
+        {% if collection.handle %}
+        var newURL = '/collections/{{ collection.handle }}';
+        if (newTags.length) {
+          newURL += '/' + newTags.join('+');
+        }
+        var search = jQuery.param(Shopify.queryParams);
+        if (search.length) {
+          newURL += '?' + search;
+        }
+        location.href = newURL;
+        {% else %}
+        if (newTags.length) {
+          Shopify.queryParams.constraint = newTags.join('+');
+        }
+        else {
+          delete Shopify.queryParams.constraint;
+        }
+        location.search = jQuery.param(Shopify.queryParams);
+        {% endif %}
+      });
+
+    });
+  </script>
+  
+  {% include 'currencies' %}
+<!-- BEEKETINGSCRIPT CODE START -->{% include 'bk-tracking' %}<!-- BEEKETINGSCRIPT CODE END --></body>
+</html>

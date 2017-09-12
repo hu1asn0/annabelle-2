@@ -1,0 +1,1314 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Annabelle",
+    "theme_author": "Space Squirrel",
+    "theme_version": "1.1.0",
+    "theme_documentation_url": "http:\/\/spacesquirrel.co",
+    "theme_support_url": "https:\/\/intercom.help\/space-squirrel"
+  },
+  {
+    "name": "General",
+    "settings": [
+      {
+        "type": "select",
+        "id": "theme_layout_type",
+        "label": "Theme Layout",
+        "options": [
+          {
+            "value": "container-fluid",
+            "label": "Full Width Layout"
+          },
+          {
+            "value": "container",
+            "label": "Boxed Layout"
+          }
+        ],
+        "default": "container-fluid",
+        "info": "Choose the type of layout you want"
+      },
+      {
+        "type": "header",
+        "content": "Favicon"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_favicon",
+        "label": "Use Favicon Image",
+        "default": false,
+        "info": "This will use your custom Favicon that you've uploaded"
+      },
+      {
+        "type": "image",
+        "id": "favicon.png",
+        "label": "Favicon Image"
+      },
+      {
+        "type": "header",
+        "content": "Blog"
+      },
+      {
+        "type": "text",
+        "id": "blog_posts_per_page",
+        "label": "Blog posts per page",
+        "default": "5"
+      },
+      {
+        "type": "header",
+        "content": "Payment Icons"
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_master",
+        "label": "MasterCard",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_visa",
+        "label": "VISA",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_amex",
+        "label": "AMEX",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_maestro",
+        "label": "Maestro"
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_discover",
+        "label": "Discover"
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_paypal",
+        "label": "PayPal"
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_bitcoin",
+        "label": "Bitcoin"
+      }
+    ]
+  },
+  {
+    "name": "Colors & Fonts",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "dark_color",
+        "label": "Primary Dark Color",
+        "default": "#262626"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_light",
+        "label": "Primary Light Color",
+        "default": "#353535"
+      },
+      {
+        "type": "color",
+        "id": "gray_color",
+        "label": "Accent Color",
+        "default": "#CCCCCC"
+      },
+      {
+        "type": "color",
+        "id": "gray_color_light",
+        "label": "Accent Light Color",
+        "default": "#f2f2f2"
+      },
+      {
+        "type": "color",
+        "id": "gray_color_dark",
+        "label": "Accent Dark Color",
+        "default": "#979797"
+      },
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "text",
+        "id": "main_font",
+        "label": "Primary Font Name",
+        "default": "Raleway"
+      },
+      {
+        "type": "text",
+        "id": "main_font_url",
+        "label": "Primary Font URL",
+        "default": "Raleway:400,700"
+      },
+      {
+        "type": "text",
+        "id": "accent_font",
+        "label": "Accent Font Name",
+        "default": "Playfair Display"
+      },
+      {
+        "type": "text",
+        "id": "accent_font_url",
+        "label": "Accent Font URL",
+        "default": "Playfair+Display:400,400italic,700"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "free_shipping_message",
+        "label": "Message in Header",
+        "default": "<i class='fa fa-truck'><\/i> Enter Message Here in Header Settings"
+      },
+      {
+        "type": "header",
+        "content": "Logo Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_custom_logo",
+        "label": "Use custom image for logo in header",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "logo.png",
+        "label": "Logo File",
+        "max-height": 80
+      },
+      {
+        "type": "image",
+        "id": "logo@2.png",
+        "label": "Logo File for Retina Screens",
+        "max-height": 160,
+        "info": "Use the same image as your logo but double its size before uploading"
+      },
+      {
+        "type": "text",
+        "id": "logo_height",
+        "label": "Height of logo in pixels"
+      }
+    ]
+  },
+  {
+    "name": "Home Page",
+    "settings": [
+      {
+        "type": "header",
+        "content": "3 Banner Section"
+      },
+      {
+        "type": "checkbox",
+        "id": "banners_show",
+        "label": "Show 3 Banners",
+        "info": "Enable 3 banners below the slideshow"
+      },
+      {
+        "type": "header",
+        "content": "Banner 1"
+      },
+      {
+        "type": "image",
+        "id": "banner_1.jpg",
+        "label": "Banner 1 Image",
+        "info": "Banner 1 image (380x200 pixels)",
+        "max-width": 380,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "banner_1_link",
+        "label": "Link for banner 1",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "banner_1_title",
+        "label": "Title for Banner 1"
+      },
+      {
+        "type": "text",
+        "id": "banner_1_subtitle",
+        "label": "Subtitle for Banner 1"
+      },
+      {
+        "type": "header",
+        "content": "Banner 2"
+      },
+      {
+        "type": "image",
+        "id": "banner_2.jpg",
+        "label": "Banner 2 Image",
+        "info": "Banner 2 image (380x200 pixels)",
+        "max-width": 380,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "banner_2_link",
+        "label": "Link for banner 2",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "banner_2_title",
+        "label": "Title for Banner 2"
+      },
+      {
+        "type": "text",
+        "id": "banner_2_subtitle",
+        "label": "Subtitle for Banner 2"
+      },
+      {
+        "type": "header",
+        "content": "Banner 3"
+      },
+      {
+        "type": "image",
+        "id": "banner_3.jpg",
+        "label": "Banner 3 Image",
+        "info": "Banner 3 image (380x200 pixels)",
+        "max-width": 380,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "banner_3_link",
+        "label": "Link for banner 3",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "banner_3_title",
+        "label": "Title for Banner 3"
+      },
+      {
+        "type": "text",
+        "id": "banner_3_subtitle",
+        "label": "Subtitle for Banner 3"
+      },
+      {
+        "type": "header",
+        "content": "Featured Products"
+      },
+      {
+        "type": "checkbox",
+        "id": "featured_products_show",
+        "label": "Show Featured Products",
+        "default": true
+      },
+      {
+        "type": "collection",
+        "id": "featured_products_collection",
+        "label": "Featured Products on Homepage"
+      },
+      {
+        "type": "text",
+        "id": "featured_products_title",
+        "label": "Featured Products Title",
+        "default": "Featured Products",
+        "info": "This title will be used above list of featured products on homepage."
+      },
+      {
+        "type": "text",
+        "id": "featured_products_count",
+        "label": "Number of Featured Products",
+        "default": "16",
+        "info": "Number of featured products on homepage."
+      },
+      {
+        "type": "header",
+        "content": "Featured Brands"
+      },
+      {
+        "type": "checkbox",
+        "id": "brands_show",
+        "label": "Show Featured Brand Logos"
+      },
+      {
+        "type": "text",
+        "id": "brands_title",
+        "label": "Featured Brand Logos Title",
+        "default": "Featured Brands",
+        "info": "This title will be used above list of featured logos on homepage."
+      },
+      {
+        "type": "header",
+        "content": "Featured Brand Images"
+      },
+      {
+        "type": "image",
+        "id": "brand_1.png",
+        "label": "Brand 1 Image",
+        "info": "Brand 1 image (200x200 pixels)",
+        "max-width": 200,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "brand_1_link",
+        "label": "Link for brand 1",
+        "default": "#"
+      },
+      {
+        "type": "image",
+        "id": "brand_2.png",
+        "label": "Brand 2 Image",
+        "info": "Brand 2 image (200x200 pixels)",
+        "max-width": 200,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "brand_2_link",
+        "label": "Link for brand 2",
+        "default": "#"
+      },
+      {
+        "type": "image",
+        "id": "brand_3.png",
+        "label": "Brand 3 Image",
+        "info": "Brand 3 image (200x200 pixels)",
+        "max-width": 200,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "brand_3_link",
+        "label": "Link for brand 3",
+        "default": "#"
+      },
+      {
+        "type": "image",
+        "id": "brand_4.png",
+        "label": "Brand 4 Image",
+        "info": "Brand 4 image (200x200 pixels)",
+        "max-width": 200,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "brand_4_link",
+        "label": "Link for brand 4",
+        "default": "#"
+      },
+      {
+        "type": "image",
+        "id": "brand_5.png",
+        "label": "Brand 5 Image",
+        "info": "Brand 5 image (200x200 pixels)",
+        "max-width": 200,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "brand_5_link",
+        "label": "Link for brand 5",
+        "default": "#"
+      },
+      {
+        "type": "image",
+        "id": "brand_6.png",
+        "label": "Brand 6 Image",
+        "info": "Brand 6 image (200x200 pixels)",
+        "max-width": 200,
+        "max-height": 200
+      },
+      {
+        "type": "text",
+        "id": "brand_6_link",
+        "label": "Link for brand 6",
+        "default": "#"
+      },
+      {
+        "type": "header",
+        "content": "Products Tabs"
+      },
+      {
+        "type": "checkbox",
+        "id": "products_tab_show",
+        "label": "Show Products Tab"
+      },
+      {
+        "type": "text",
+        "id": "products_tab_count",
+        "label": "Number of products to show on tab",
+        "default": "12"
+      },
+      {
+        "type": "text",
+        "id": "products_tab_1_title",
+        "label": "Tab 1 Title"
+      },
+      {
+        "type": "collection",
+        "id": "products_tab_1_collection",
+        "label": "Tab 1 Products Collection"
+      },
+      {
+        "type": "text",
+        "id": "products_tab_2_title",
+        "label": "Tab 2 Title"
+      },
+      {
+        "type": "collection",
+        "id": "products_tab_2_collection",
+        "label": "Tab 2 Products Collection"
+      },
+      {
+        "type": "text",
+        "id": "products_tab_3_title",
+        "label": "Tab 3 Title"
+      },
+      {
+        "type": "collection",
+        "id": "products_tab_3_collection",
+        "label": "Tab 3 Products Collection"
+      },
+      {
+        "type": "header",
+        "content": "Latest News"
+      },
+      {
+        "type": "checkbox",
+        "id": "latest_news_show",
+        "label": "Show Latest News"
+      },
+      {
+        "type": "text",
+        "id": "latest_news_title",
+        "label": "Latest News Title",
+        "default": "LATEST NEWS"
+      },
+      {
+        "type": "blog",
+        "id": "latest_news_blog",
+        "label": "Show Latest News From Selected Blog"
+      }
+    ]
+  },
+  {
+    "name": "Slideshow",
+    "settings": [
+      {
+        "type": "select",
+        "id": "slideshow_type",
+        "label": "Slideshow size",
+        "options": [
+          {
+            "group": "value",
+            "value": "slideshow_type_normal",
+            "label": "Full Width"
+          },
+          {
+            "group": "value",
+            "value": "slideshow_type_fullscreen",
+            "label": "Overflow"
+          }
+        ],
+        "default": "slideshow_type_normal",
+        "info": "Choose what type of slideshow you want on homepage"
+      },
+      {
+        "type": "header",
+        "content": "Slideshow Options"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_loop",
+        "label": "Infinity Loop. Duplicate last and first items to get loop illusion.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_autoplay",
+        "label": "Autoplay",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "slideshow_autoplay_timeout",
+        "label": "Autoplay interval timeout (milliseconds)",
+        "default": "5000"
+      },
+      {
+        "type": "text",
+        "id": "slideshow_autoplay_speed",
+        "label": "Autoplay slide speed (milliseconds)",
+        "default": "1200"
+      },
+      {
+        "type": "checkbox",
+        "id": "slideshow_autoplay_hover_pause",
+        "label": "Pause slide autoplay on mouse hover.",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Slideshow Colors"
+      },
+      {
+        "type": "color",
+        "id": "slide_text_color",
+        "label": "Slide Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "slide_button_color",
+        "label": "Slide Button Background Color",
+        "default": "#262626"
+      },
+      {
+        "type": "color",
+        "id": "slide_button_color_hover",
+        "label": "Slide Button Background Color on Hover",
+        "default": "#262626"
+      },
+      {
+        "type": "color",
+        "id": "slide_button_color_text",
+        "label": "Slide Button Text Color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "slide_button_color_text_hover",
+        "label": "Slide Button Text Color on Hover",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "Slide 1"
+      },
+      {
+        "type": "checkbox",
+        "id": "slide_1_show",
+        "label": "Enable Slide 1"
+      },
+      {
+        "type": "image",
+        "id": "slide_1.jpg",
+        "label": "Slide 1 Image",
+        "info": "Upload slide 1 image",
+        "max-width": 1440,
+        "max-height": 768
+      },
+      {
+        "type": "text",
+        "id": "slide_1_link",
+        "label": "Link for Slide 1",
+        "default": "#"
+      },
+      {
+        "type": "select",
+        "id": "slide_1_position",
+        "label": "Slide 1 Text Position",
+        "options": [
+          {
+            "group": "value",
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "group": "value",
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "group": "value",
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left",
+        "info": "Choose where text will be on slide item"
+      },
+      {
+        "type": "text",
+        "id": "slide_1_title",
+        "label": "Title for Slide 1"
+      },
+      {
+        "type": "textarea",
+        "id": "slide_1_subtitle",
+        "label": "Subtitle for Slide 1"
+      },
+      {
+        "type": "text",
+        "id": "slide_1_button_text",
+        "label": "Caption for Slide 1 button"
+      },
+      {
+        "type": "header",
+        "content": "Slide 2"
+      },
+      {
+        "type": "checkbox",
+        "id": "slide_2_show",
+        "label": "Enable Slide 2"
+      },
+      {
+        "type": "image",
+        "id": "slide_2.jpg",
+        "label": "Slide 2 Image",
+        "info": "Upload slide 2 image",
+        "max-width": 1440,
+        "max-height": 768
+      },
+      {
+        "type": "text",
+        "id": "slide_2_link",
+        "label": "Link for Slide 2",
+        "default": "#"
+      },
+      {
+        "type": "select",
+        "id": "slide_2_position",
+        "label": "Slide 2 Text Position",
+        "options": [
+          {
+            "group": "value",
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "group": "value",
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "group": "value",
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left",
+        "info": "Choose where text will be on slide item"
+      },
+      {
+        "type": "text",
+        "id": "slide_2_title",
+        "label": "Title for Slide 2"
+      },
+      {
+        "type": "textarea",
+        "id": "slide_2_subtitle",
+        "label": "Subtitle for Slide 2"
+      },
+      {
+        "type": "text",
+        "id": "slide_2_button_text",
+        "label": "Caption for Slide 2 button"
+      },
+      {
+        "type": "header",
+        "content": "Slide 3"
+      },
+      {
+        "type": "checkbox",
+        "id": "slide_3_show",
+        "label": "Enable Slide 3"
+      },
+      {
+        "type": "image",
+        "id": "slide_3.jpg",
+        "label": "Slide 3 Image",
+        "info": "Upload slide 3 image",
+        "max-width": 1440,
+        "max-height": 768
+      },
+      {
+        "type": "text",
+        "id": "slide_3_link",
+        "label": "Link for Slide 3",
+        "default": "#"
+      },
+      {
+        "type": "select",
+        "id": "slide_3_position",
+        "label": "Slide 3 Text Position",
+        "options": [
+          {
+            "group": "value",
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "group": "value",
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "group": "value",
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left",
+        "info": "Choose where text will be on slide item"
+      },
+      {
+        "type": "text",
+        "id": "slide_3_title",
+        "label": "Title for Slide 3"
+      },
+      {
+        "type": "textarea",
+        "id": "slide_3_subtitle",
+        "label": "Subtitle for Slide 3"
+      },
+      {
+        "type": "text",
+        "id": "slide_3_button_text",
+        "label": "Caption for Slide 3 button"
+      },
+      {
+        "type": "header",
+        "content": "Slide 4"
+      },
+      {
+        "type": "checkbox",
+        "id": "slide_4_show",
+        "label": "Enable Slide 4"
+      },
+      {
+        "type": "image",
+        "id": "slide_4.jpg",
+        "label": "Slide 4 Image",
+        "info": "Upload slide 4 image",
+        "max-width": 1440,
+        "max-height": 768
+      },
+      {
+        "type": "text",
+        "id": "slide_4_link",
+        "label": "Link for Slide 4",
+        "default": "#"
+      },
+      {
+        "type": "select",
+        "id": "slide_4_position",
+        "label": "Slide 4 Text Position",
+        "options": [
+          {
+            "group": "value",
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "group": "value",
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "group": "value",
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left",
+        "info": "Choose where text will be on slide item"
+      },
+      {
+        "type": "text",
+        "id": "slide_4_title",
+        "label": "Title for Slide 4"
+      },
+      {
+        "type": "textarea",
+        "id": "slide_4_subtitle",
+        "label": "Subtitle for Slide 4"
+      },
+      {
+        "type": "text",
+        "id": "slide_4_button_text",
+        "label": "Caption for Slide 4 button"
+      },
+      {
+        "type": "header",
+        "content": "Slide 5"
+      },
+      {
+        "type": "checkbox",
+        "id": "slide_5_show",
+        "label": "Enable Slide 5"
+      },
+      {
+        "type": "image",
+        "id": "slide_5.jpg",
+        "label": "Slide 5 Image",
+        "info": "Upload slide 5 image",
+        "max-width": 1440,
+        "max-height": 768
+      },
+      {
+        "type": "text",
+        "id": "slide_5_link",
+        "label": "Link for Slide 5",
+        "default": "#"
+      },
+      {
+        "type": "select",
+        "id": "slide_5_position",
+        "label": "Slide 5 Text Position",
+        "options": [
+          {
+            "group": "value",
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "group": "value",
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "group": "value",
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left",
+        "info": "Choose where text will be on slide item"
+      },
+      {
+        "type": "text",
+        "id": "slide_5_title",
+        "label": "Title for Slide 5"
+      },
+      {
+        "type": "textarea",
+        "id": "slide_5_subtitle",
+        "label": "Subtitle for Slide 5"
+      },
+      {
+        "type": "text",
+        "id": "slide_5_button_text",
+        "label": "Caption for Slide 5 button"
+      }
+    ]
+  },
+  {
+    "name": "Extended Menu Settings",
+    "settings": [
+      {
+        "type": "text",
+        "id": "mega_menu_trigger",
+        "label": "Extended Menu Handle",
+        "info": "Type the name of the Menu that you want to extend - You can only choose one",
+        "default": "ie. catalog or home-page"
+      },
+      {
+        "type": "link_list",
+        "id": "mega_menu_submenu1",
+        "label": "Extended Menu 1"
+      },
+      {
+        "type": "link_list",
+        "id": "mega_menu_submenu2",
+        "label": "Extended Menu 2"
+      },
+      {
+        "type": "link_list",
+        "id": "mega_menu_submenu3",
+        "label": "Extended Menu 3"
+      },
+      {
+        "type": "image",
+        "id": "submenu_1.jpg",
+        "label": "Menu Image 1"
+      },
+      {
+        "type": "text",
+        "id": "submenu_1_link",
+        "label": "Menu Image 1 Link"
+      },
+      {
+        "type": "image",
+        "id": "submenu_2.jpg",
+        "label": "Menu Image 2"
+      },
+      {
+        "type": "text",
+        "id": "submenu_2_link",
+        "label": "Menu Image 2 Link"
+      }
+    ]
+  },
+  {
+    "name": "Collection page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "collection_layout_type",
+        "label": "Products per row",
+        "options": [
+          {
+            "value": "two",
+            "label": "2 products per row (A | B)"
+          },
+          {
+            "value": "three",
+            "label": "3 products per row (A | B | C)"
+          },
+          {
+            "value": "four",
+            "label": "4 products per row (A | B | C | D)"
+          },
+          {
+            "value": "five",
+            "label": "5 products per row (A | B | C | D | E)"
+          }
+        ],
+        "default": "four",
+        "info": "Choose layout for collection page. How many products per row do you want to show"
+      },
+      {
+        "type": "text",
+        "id": "number_of_products",
+        "label": "Number of products per page",
+        "info": "How many products you want per page",
+        "default": "16"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_second_image_on_hover",
+        "label": "Show 2nd image on mouse hover"
+      },
+      {
+        "type": "checkbox",
+        "id": "big_image",
+        "label": "Highlight random product in large format"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quick_view",
+        "label": "Show Quick View",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Filters"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filters",
+        "label": "Show Filter on top of collection page"
+      },
+      {
+        "type": "link_list",
+        "id": "filter_1",
+        "label": "Filter 1. Link List",
+        "info": "Link List for Filters"
+      },
+      {
+        "type": "link_list",
+        "id": "filter_2",
+        "label": "Filter 2. Link List",
+        "info": "Link List for Filters"
+      },
+      {
+        "type": "link_list",
+        "id": "filter_3",
+        "label": "Filter 3. Link List",
+        "info": "Link List for Filters"
+      }
+    ]
+  },
+  {
+    "name": "Product page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout_type",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "3",
+            "label": "3 column layout (A | B | C)"
+          },
+          {
+            "value": "2",
+            "label": "2 column (A | B)"
+          },
+          {
+            "value": "1",
+            "label": "1 column (A)"
+          }
+        ],
+        "default": "1",
+        "info": "Choose layout for product page: A) Product description B) Custom column C) Reviews"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_column",
+        "label": "B) Custom column on product page layout",
+        "info": "Here you can put stuff like 'shipping info' or 'size guide'. Use text %SIZECHART% to insert size chart image and functionality to text.",
+        "default": "<h2>SHIPPING<\/h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<h2>SIZE GUIDE<\/h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      {
+        "type": "image",
+        "id": "sizechart_small.jpg",
+        "label": "Size Chart (small image - link to big size chart)",
+        "info": "Small size chart image, clicking on size chart image will open big size chart image "
+      },
+      {
+        "type": "image",
+        "id": "sizechart.jpg",
+        "label": "Size Chart",
+        "info": "Size chart image, it will be showed when user click on small size chart image."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_color_swatch",
+        "label": "Show Color Swatches",
+        "info": "Showing Color Swatches instead of text on options selector. Read documentation on how to setup color swatches."
+      },
+      {
+        "type": "checkbox",
+        "id": "ajax_cart_enable",
+        "label": "Enable Ajax on Add To Cart button"
+      },
+      {
+        "type": "textarea",
+        "id": "below_add_to_cart",
+        "label": "Assurance text below Add To Cart button",
+        "default": "<li><i class='fa fa-truck'><\/i> Free Shipping<\/li><li><i class='fa fa-check'><\/i> Easy Returns<\/li><li><i class='fa fa-credit-card'><\/i> Secure Payment<\/li>"
+      },
+      {
+        "type": "header",
+        "content": "Related Products"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_related_products",
+        "label": "Show Related Products on Product page",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "related_products_title",
+        "label": "Related Products Title",
+        "default": "Related Products"
+      },
+      {
+        "type": "text",
+        "id": "related_products_count",
+        "label": "Number of Related Products",
+        "default": "12"
+      },
+      {
+        "type": "header",
+        "content": "Share buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_mail",
+        "label": "Show E-mail Share Button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_fb",
+        "label": "Show Facebook Share Button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Show Twitter Share Button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Show Pinterest Share Button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_gplus",
+        "label": "Show Google+ Share Button",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "footer_menu_1",
+        "label": "Footer Menu 1"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_menu_2",
+        "label": "Footer Menu 2"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_menu_3",
+        "label": "Footer Menu 3"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_menu_4",
+        "label": "Footer Menu 4"
+      },
+      {
+        "type": "header",
+        "content": "Social Icons"
+      },
+      {
+        "type": "text",
+        "id": "social_title",
+        "label": "Title of social icons block",
+        "default": "Stay connected"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Link to Facebook page"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter",
+        "label": "Link to Twitter page"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Link to Instagram page"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest",
+        "label": "Link to Pinterest page"
+      },
+      {
+        "type": "text",
+        "id": "social_googleplus",
+        "label": "Link to Google+ page"
+      },
+      {
+        "type": "text",
+        "id": "copyright_message",
+        "label": "Copyright message at bottom of site",
+        "default": " © 2017 Annabelle Theme by Space Squirrel |"
+      }
+    ]
+  },
+  {
+    "name": "Currency",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "To offer multiple currencies on your online store, you must first [edit your store's currency formatting]({{ site.url }}\/manual\/using-themes\/troubleshooting\/help-script-find-money-formats)."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_multiple_currencies",
+        "label": "Enable currency conversion",
+        "default": true,
+        "info": "Even though prices are displayed in different currencies, orders will still be processed in your store's currency."
+      },
+      {
+        "type": "select",
+        "id": "currency_format",
+        "label": "Format",
+        "options": [
+          {
+            "value": "money_format",
+            "label": "Without currency ($10.00)"
+          },
+          {
+            "value": "money_with_currency_format",
+            "label": "With currency ($10.00 CAD)"
+          }
+        ],
+        "default": "money_with_currency_format"
+      },
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Supported currencies",
+        "default": "INR GBP CAD USD AUD EUR JPY",
+        "info": "Use the country's ISO [currency code](http:\/\/www.xe.com\/iso4217.php). Separate your currency codes with a space."
+      },
+      {
+        "type": "text",
+        "id": "default_currency",
+        "label": "Default currency",
+        "default": "USD"
+      }
+    ]
+  },
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "text",
+        "id": "newsletter_link",
+        "label": "MailChimp form action URL",
+        "info": "See our documentation for instructions how to get this URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_header",
+        "label": "Show Newsletter box in header dropdown",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_footer",
+        "label": "Show Newsletter box in footer",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_text",
+        "label": "Short info text about Newsletter",
+        "default": "Latest news from us in your inbox."
+      },
+      {
+        "type": "header",
+        "content": "Newsletter popup"
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_popup",
+        "label": "Show Newsletter popup after page is loaded"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_title",
+        "label": "Newsletter title"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_description",
+        "label": "Newsletter description"
+      },
+      {
+        "type": "image",
+        "id": "newsletter-popup.jpg",
+        "label": "Newsletter popup background image"
+      }
+    ]
+  }
+]

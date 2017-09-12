@@ -1,0 +1,39 @@
+@import url(//fonts.googleapis.com/css?family=Raleway:400,600,700);
+@import url(//fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700);
+
+/* Variables */
+$primaryFontFamily: '{{ settings.main_font }}', sans-serif;
+$secondaryFontFamily: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$accentFontFamily: '{{ settings.accent_font }}', serif;
+
+$lightGray: #f2f2f2;
+$middleGray: #ccc;
+$darkGray: #979797;
+
+$dark: #262626;
+$lightDark: #353535; /* #2e2e2e; */
+
+$extralargeFontSize: 26px;
+$largeFontSize: 22px;
+$mediumFontSize: 18px;
+$normalFontSize: 14px;
+
+$scaleAnimFactor: 1.05;
+$opactiyAnimFactor: 0.4;
+
+
+body{font-family: 'Raleway', sans-serif;}
+h3,h5{font-weight: 700;font-size: 1rem;text-transform: uppercase;}
+
+.shop__name{color: #000;font-size: 34px;letter-spacing: 6px;text-transform: uppercase;font-weight: 400;}
+
+.order-summary{border-radius:0;background-color: #fff}
+.order-summary h3{text-transform: uppercase;font-weight: 700;font-size: 1rem;}
+
+.fieldset{border-radius: 0}
+.fieldset .field:first-child{border-radius: 0}
+.field label{font-weight: 700}
+.boxshadow .field--focus {box-shadow: 0px 0px 0px 2px #ccc;border-radius: 0px !important;}
+
+.btn{border-radius: 0;padding:1em 2.5em;font-size: 0.8rem;text-transform: uppercase;font-family: $secondaryFontFamily;border: none;font-size: 11px;font-weight: 700;letter-spacing: 1px;text-transform: uppercase;color: #FFF;background-color: $dark;padding: 10px 25px;transition: background-color 0.2s ease 0s;}
+.btn:hover, .btn:focus, .btn:active{color: #fff;text-decoration: none;background-color: $lightDark;box-shadow: none;}

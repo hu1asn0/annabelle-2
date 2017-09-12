@@ -1,0 +1,56 @@
+<!-- /templates/list-collections.liquid -->
+{% comment %}
+
+  This page represents the /collections and /products pages.
+  It is an optional, but highly recommended, template for your theme.
+
+  More info:
+    - http://docs.shopify.com/manual/configuration/store-customization/taking-control-of-collections-listing
+
+{% endcomment %}
+
+{% comment %}
+  Loop through each collection, except 'frontpage'
+{% endcomment %}
+
+{% include 'breadcrumbs' %}
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row">
+    <div id="main" role="main" class="col-sm-12">
+      <div class="row collection-list">
+      {% for collection in collections %}
+
+        {% unless collection.handle == 'frontpage' %}
+          {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+
+          {% assign collection_image = "" %}
+          {% if collection.image %}
+            {% capture collection_image %}{{collection.image | img_url: 'master'}}{% endcapture %}
+          {% else %}
+            {% if collection.products.size > 0 %}
+              {% capture collection_image %}{{ collection.products.first.featured_image | img_url: 'master'}}{% endcapture %}
+            {% endif %}
+            
+          {% endif %}
+
+          <div class="col-sm-6 col-md-4 text-center collection">
+            <div href="{{ collection.handle }}" class="collection-wrap" style="background-image:url('{{ collection_image }}');">
+              <div class="wrap-overlay"></div>              
+              <div class="collection-item">
+                <h2 class="title"><a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}">{{ collection_title }}</a></h2>
+                <span class="line"></span>
+                <p class="line-description">{{ collection.products.count }} {{ 'collections.general.products' | t }}</p>
+                <div class="button-wrap">
+                  <a class="btn btn-fancy" href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}">{{ 'collections.general.view_collection' | t }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {% endunless %}
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

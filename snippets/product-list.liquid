@@ -1,0 +1,167 @@
+{% if settings.show_filters == true %}
+
+{% assign filter_count = 1 %}
+{% if linklists.[settings.filter_1].title != "" %}
+  {% capture filter_count %}{{ filter_count | plus:1 }}{% endcapture %}
+{% endif %}
+{% if linklists.[settings.filter_2].title != "" %}
+  {% capture filter_count %}{{ filter_count | plus:1 }}{% endcapture %}
+{% endif %}
+{% if linklists.[settings.filter_3].title != "" %}
+  {% capture filter_count %}{{ filter_count | plus:1 }}{% endcapture %}
+{% endif %}
+
+<div id="filters" class="btn-{{ filter_count }}">
+  {% if linklists.[settings.filter_1].title != "" %}
+  <select class="selectpicker coll-filter" title='{{ linklists.[settings.filter_1].title }}' data-icon-base="fa" data-tick-icon="fa-check" multiple>
+    {% for link in linklists.[settings.filter_1].links %}
+      {% if current_tags contains link.title %}
+        <option value="{{ link.title }}" selected>{{ link.title }}</option>
+      {% else %}
+        <option value="{{ link.title }}">{{ link.title }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  {% endif %}
+
+  {% if linklists.[settings.filter_2].title != "" %}
+  <select class="selectpicker coll-filter" title='{{ linklists.[settings.filter_2].title }}' data-icon-base="fa" data-tick-icon="fa-check" multiple>
+    {% for link in linklists.[settings.filter_2].links %}
+      {% if current_tags contains link.title %}
+        <option value="{{ link.title }}" selected>{{ link.title }}</option>
+      {% else %}
+        <option value="{{ link.title }}">{{ link.title }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  {% endif %}
+
+
+  {% if linklists.[settings.filter_3].title != "" %}
+  <select class="selectpicker coll-filter" title='{{ linklists.[settings.filter_3].title }}' data-icon-base="fa" data-tick-icon="fa-check" multiple>
+    {% for link in linklists.[settings.filter_3].links %}
+      {% if current_tags contains link.title %}
+        <option value="{{ link.title }}" selected>{{ link.title }}</option>
+      {% else %}
+        <option value="{{ link.title }}">{{ link.title }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  {% endif %}
+ 
+  {% if collection.products_count > 1 and settings.show_sortby == true %}    
+  <select class="sort-by selectpicker show-tick" title="{{ 'collections.sorting.title' | t }}" data-icon-base="fa" data-tick-icon="fa-check">
+    <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+    <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+    <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+    <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+    <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+    <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+    <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+    <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+  </select>
+  {% endif %}
+
+  <div class="clearfix"></div>
+</div>
+
+{% endif %}
+
+<ul id="product-list" class="{{ layout_type }} {% if settings.show_color_swatches_on_collection_page %} show-swatch {% endif %}">
+  {% paginate collection.products by settings.number_of_products %} 
+    {% assign first_class = "" %}
+    {% assign second_class = "" %}
+
+    {% assign first_treshold = 6 %}
+    {% assign second_treshold = 13 %}
+
+    {% if layout_type == "two" %}
+      {% assign first_treshold = 2 %}
+      {% assign second_treshold = 5 %}
+    {% elsif layout_type == "three" %}
+      {% assign first_treshold = 4 %}
+      {% assign second_treshold = 9 %}
+    {% elsif layout_type == "four" %}
+      {% assign first_treshold = 6 %}
+      {% assign second_treshold = 13 %}
+    {% elsif layout_type == "five" %}
+      {% assign first_treshold = 8 %}
+      {% assign second_treshold = 17 %}
+    {% endif %}
+    
+
+    {% for product in collection.products %}
+
+      {% if layout_type == "two" %}
+
+        {% if forloop.index > first_treshold %}
+          {% capture second_class %}{% cycle 'group-right': 'big right','2','3','4','5','6' %}{% endcapture %}
+        {% endif %}
+
+        {% if forloop.index > second_treshold %}
+          {% capture first_class %}{% cycle 'group-left': 'big left','2','3','4','5','6','6' %}{% endcapture %}
+        {% endif %}
+      {% elsif layout_type == "three" %}
+
+
+        {% if forloop.index > first_treshold %}
+          {% capture second_class %}{% cycle 'group-right': 'big right','2','3','4','5','6','7','8','9','10','11' %}{% endcapture %}
+        {% endif %}
+
+        {% if forloop.index > second_treshold %}
+          {% capture first_class %}{% cycle 'group-left': 'big left','2','3','4','5','6','7','8','9','10','11' %}{% endcapture %}
+        {% endif %}
+
+
+      {% elsif layout_type == "four" %}
+
+        {% if forloop.index > first_treshold %}
+          {% capture second_class %}{% cycle 'group-right': 'big right','2','3','4','5','6','7','8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18' %}{% endcapture %}
+        {% endif %}
+
+        {% if forloop.index > second_treshold %}
+          {% capture first_class %}{% cycle 'group-left': 'big left','2','3','4','5','6','7','8','9', '10', '11', '12', '13', '14', '15', '16', '17', '18' %}{% endcapture %}
+        {% endif %}
+
+      {% elsif layout_type == "five" %}
+        {% if forloop.index > first_treshold %}
+          {% capture second_class %}{% cycle 'group-right': 'big right','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21' %}{% endcapture %}
+        {% endif %}
+
+        {% if forloop.index > second_treshold %}
+          {% capture first_class %}{% cycle 'group-left': 'big left','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21' %}{% endcapture %}
+        {% endif %}
+      {% endif %}
+      
+
+      <li class="{% if settings.big_image %}{{ first_class }} {{ second_class }}{% endif %}">{% include 'product-grid-item' %}</li>
+    {% else %}
+      <p>{{ 'collections.onboarding.no_products' | t }}</p>
+    {% endfor %}
+  {% endpaginate %}
+
+  <div class="clearfix"></div> 
+</ul>   
+
+{% if paginate.pages > 1 %}
+  <div class="pagination">
+    {{ paginate | default_pagination | replace: '&laquo; Previous', '&#xf104;' | replace: 'Next &raquo;', '&#xf105;' }}
+  </div>
+{% endif %}
+
+{% comment %}
+  JavaScript for collection sorting.
+{% endcomment %}
+<script>
+// jQuery(document).ready(function(){
+  Shopify.queryParams = Shopify.queryParams || {};
+  Shopify.queryParams.sort_by = "{{ collection.sort_by | default: collection.default_sort_by }}";
+  
+  // jQuery('.sort-by')
+    // .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+    // .on('change', function() {
+      // Shopify.queryParams.sort_by = jQuery(this).val();
+      // location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+    // });
+// });
+</script>

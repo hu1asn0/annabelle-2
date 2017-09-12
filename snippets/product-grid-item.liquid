@@ -1,0 +1,84 @@
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+<div class="product-grid-item {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %} {% cycle 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' %}">
+
+  <div class="product">
+    <a href="{{ product.url | within: collection }}" class="product-image">
+      <span class="product-image-cell">
+        <img class="img-responsive" data-orig="{{ product.featured_image | product_img_url: 'large' }}" {% if product.images.size > 1 %} data-second="{{ product.images[1] | product_img_url: 'large' }}" {% endif %} src="{{ product.featured_image | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}" />
+      </span>
+    </a>
+    
+    <h2 class="product-name">
+     <a href="{{ product.url | within: collection }}" title="{{ product.title }}">{{ product.title }}</a>
+    </h2>
+
+    <p class="product-description">
+      {{ product.description | strip_html | truncate: 600 }}
+    </p>
+
+    {% if product.price_varies %}
+      <span class="price money">{{ product.price_min | money }}</span> - <span class="price money">{{ product.price_max | money }}</span>
+    {% else %}
+      <span class="price money">{{ product.price | money }}</span>
+      {% if on_sale %}
+        <span class="compare-at-price price money">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+    {% endif; %}
+
+    {% if product.available == false %}
+      <span class="soldout">{{ 'products.product.sold_out' | t }}</span>
+    {% elsif on_sale %}
+      <span class="onsale">{{ 'products.product.on_sale' | t }}</span>
+    {% endif %}
+
+    <ul class="action-links">
+      {% if settings.show_quick_view == true %}
+      <li><a href="#" title="{{ 'products.product.quick_view' | t }}" class="quick-view-open" data-toggle="modal" data-product-id="{{ product.id }}" data-target="#productQuickView-{{ product.id }}"><i class="fa fa-eye"></i></a></li>    
+      {% endif %}
+      {% include 'wishlist-grid-item' %}      
+      <li><a href="#" title="{{ 'products.product.add_to_cart' | t }}" data-variant-size="{{ product.variants | size }}" class="quick-add-to-cart"><i class="fa fa-shopping-cart"></i></a></li>
+    </ul>
+
+    {% if settings.show_color_swatches_on_collection_page == true %}
+
+    <div class="color-swatch">
+      {% for option in product.options %}
+        {% assign downcased_option = option | downcase %}
+        {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+          {% assign index = forloop.index0 %}
+          {% assign colorlist = '' %}
+          {% assign color = '' %}
+
+          {% for variant in product.variants %}
+            {% capture color %}
+              {{ variant.options[index] }}
+            {% endcapture %}
+
+            {% unless colorlist contains color %}
+
+              <a href="#" data-variant-img="{{ variant.featured_image | product_img_url: 'large' }}" data-toggle="tooltip" data-placement="top" title="{{ color }}"><span style="background-color: {{ color | split: ' ' | last | handle }}; background-image: url({{ color | handle | append: '.' | append: file_extension | asset_url }})"></span></a>
+             
+              {% capture tempList %}
+                {{colorlist | append: color | append: ' '}}
+              {% endcapture %}
+
+              {% assign colorlist = tempList %}
+
+            {% endunless %}
+
+          {% endfor %}
+
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% endif %}
+
+  </div>
+
+</div>
+{% include 'product-quick-view' %}

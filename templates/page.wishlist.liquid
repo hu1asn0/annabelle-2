@@ -1,0 +1,82 @@
+{% include 'breadcrumbs' %}
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row">
+    <div id="main" role="main" class="col-sm-12">
+      <h1>{{ page.title }}</h1>
+
+      {% comment %}
+        Regular page content goes here.
+      {% endcomment %}
+
+      <div class="rte">
+        {{ page.content }}
+      </div>
+      
+      {% if customer %}
+        <ul id="product-list" class="wishlist {{ settings.collection_layout_type }} {% if settings.show_color_swatches_on_collection_page %} show-swatch {% endif %}">
+          {% assign wish_list_active = false %}
+          {% for tag in customer.tags %}
+            {% assign the_test = 'nutthin' %}
+            {% capture tag_id %}{{ tag }}{% endcapture %}
+            {% assign tag_size = tag_id.size %}
+            {% for tag in customer.tags %}
+              {% capture cur_tag %}{{ tag }}{% endcapture %}
+              {% if cur_tag contains tag_id %}
+                {% assign difference = tag_size | minus:cur_tag.size %}
+                {% if difference == 0 %}
+                  {% assign the_test = tag_id %}
+                {% else %}
+                  {% assign the_test = 'nutthin' %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% for collection in collections %}
+              {% paginate collection.products by collection.all_products_count %}
+                {% for product in collection.products %}
+                  {% for variant in product.variants %}
+                    {% capture variant_id %}{{ variant.id }}{% endcapture %}
+                    {% unless used contains variant_id %}
+                      {% capture diff %}{{ tag_size | minus:variant_id.size | money_without_currency | times:100 | divided_by:2 }}{% endcapture %}
+                      {% assign check = diff | split:'.' %}
+                      {% if check[1] contains '5' %}{% assign display = false %}{% else %}{% assign display = true %}{% endif %}
+                      {% if display and the_test contains variant_id %}
+                        {% assign wish_list_active = true %}
+                        {% include 'product-quick-view' %}
+                        <li id="x{{ tag_id }}" class="wishlist-item">
+                          {% include 'product-grid-item' %}
+                        </li>
+                        {% capture used %}{{ variant_id }} {{ used }}{% endcapture %}
+                      {% endif %}
+                    {% endunless %}
+                  {% endfor %}
+                {% endfor %}
+              {% endpaginate %}
+            {% endfor %}
+          {% endfor %}
+        </ul>
+
+        <form method='post' action='/contact' id='remove' accept-charset='UTF-8'>
+          <input name='form_type' type='hidden' value='customer'/>
+          <input name='utf8' type='hidden' value='✓'>
+          <input type='hidden' name='contact[email]' value='{{ customer.email }}'/>
+          <input type='hidden' name='contact[tags]' id='remove-value' value='' />
+        </form>
+
+        <form action='/cart/add' id='add-variant' method='post'>
+          <input type='hidden' name='id' id='product-select' value='' />
+        </form>
+
+        <div id="wishlist-info">
+          {% if wish_list_active == false %}
+            <p>{{ 'general.wishlist.empty' | t }}</p>
+          {% endif %}
+        </div>
+
+      {% else %}
+        <p>{{ 'general.wishlist.not_logged_in' | t }}</p>
+      {% endif %}
+    </div>
+  </div>
+</div>

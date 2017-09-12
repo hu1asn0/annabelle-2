@@ -1,0 +1,75 @@
+<!-- /templates/blog.liquid -->
+{% comment %}
+
+  Loop through a defined number of articles with the 'paginate' tag.
+  Don't forget to close the tag after your loop.
+
+{% endcomment %}
+
+{% paginate blog.articles by settings.blog_posts_per_page %}
+
+{% comment %}
+  This template is also used for listing out articles of a specific tag.
+  You can change layouts or styles by checking if current_tags is true.
+{% endcomment %}
+
+{% include 'breadcrumbs' %}
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row blog-content blog-list">
+
+      <div class="col-sm-12 text-center">
+        <h1 class="blog-title"><a href="{{ blog.url }}">{{ blog.title }}</a></h1>
+        <hr/>
+      </div>
+
+      {% for article in blog.articles %}
+        <article class="col-sm-8 col-sm-offset-2">
+          {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
+          {% capture date %}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{% endcapture %}
+
+          {% assign src = "" %}
+          {% if article.content contains "<img" %}
+              {% assign src = article.content | split: 'src="' %}
+              {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn'; | replace: 'http:http://';, 'http://'; | remove: 'https:' %}
+          {% endif %}
+
+          {% if src != "" %}
+            <a href="{{ article.url }}" title="{{ article.title }}"><img src="{{ src }}" /></a>
+          {% endif %}
+
+          <div class="article-info-wrap">
+            <p class="article-info">{{ date }}</p>            
+            <h2><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+          </div>
+          {% comment %}
+            Add a surrounding div with class 'rte' to anything that will come from the rich text editor.
+            Since this is just a listing page, you can either use the excerpt or truncate the full article.
+          {% endcomment %}
+          <div class="rte excerpt">
+            {% if article.excerpt.size > 0 %}
+              {{ article.excerpt }}
+            {% else %}
+              {{ article.content | strip_html | truncatewords: 100 }}
+            {% endif %}
+          </div>
+
+          <p class="read-more"><a href="{{ article.url }}">{{ 'blogs.article.read_more' | t }} &rarr;</a></p>
+
+          {% unless forloop.last %}<hr>{% endunless %}
+      
+        </article>
+
+      {% endfor %}
+
+    {% if paginate.pages > 1 %}
+      <hr>
+      <div class="pagination col-sm-12">
+        {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endpaginate %}

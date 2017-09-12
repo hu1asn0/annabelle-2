@@ -1,0 +1,52 @@
+<!-- /snippets/ajax-cart-template.liquid -->
+{% comment %}
+
+  This snippet provides the default handlebars.js templates for
+  the ajax cart plugin. Use the raw liquid tags to keep the
+  handlebar.js template tags as available hooks.
+
+{% endcomment %}
+  <script id="CartTemplate" type="text/template">
+  <li>{{ 'cart.general.title' | t }}</li>
+  {% raw %}
+    <li>
+      <table class="table">
+        {{#items}}
+          <tr>
+            <td class="product-small-image"><a href="{{url}}"><img src="{{img}}" alt="{{name}}"></a></td>
+            <td>
+              <a href="{{url}}">{{name}}</a> <br>
+              <span class="seconday"><span class="quantity">{% endraw %}{{ 'cart.label.quantity' | t }}{% raw %}:</span> {{itemQty}} </span><br>
+              <span class="seconday"><span class="money">{{{price}}}</span></span>
+            </td>
+          </tr>
+        {{/items}}
+      </table>  
+      <div class="subtotal-wrap">
+        {% endraw %}{{ 'cart.general.subtotal' | t }}{% raw %}: <span class="pull-right money">{{{totalPrice}}}</span>
+      </div>
+      <div class="text-center">
+        <a href="/cart" class="btn btn-default">{% endraw %}{{ 'cart.general.view_cart' | t }}{% raw %}</a>
+      </div>
+    </li>
+  {% endraw %}
+  </script>
+
+  <script id="AjaxQty" type="text/template">
+  {% raw %}
+    <div class="ajaxcart__qty">
+      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus" data-id="{{id}}" data-qty="{{itemMinus}}">&minus;</button>
+      <input type="text" name="updates[]" class="ajaxcart__qty-num" value="{{itemQty}}" min="0" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*">
+      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus" data-id="{{id}}" data-qty="{{itemAdd}}">+</button>
+    </div>
+  {% endraw %}
+  </script>
+  <script id="JsQty" type="text/template">
+  {% raw %}
+    <div class="js-qty">
+      <button type="button" class="js-qty__adjust js-qty__adjust--minus" data-id="{{id}}" data-qty="{{itemMinus}}">&minus;</button>
+      <input type="text" class="js-qty__num" value="{{itemQty}}" min="1" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*" name="{{inputName}}" id="{{inputId}}">
+      <button type="button" class="js-qty__adjust js-qty__adjust--plus" data-id="{{id}}" data-qty="{{itemAdd}}">+</button>
+    </div>
+  {% endraw %}
+  </script>

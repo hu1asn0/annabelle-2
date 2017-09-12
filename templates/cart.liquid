@@ -1,0 +1,154 @@
+<!-- /templates/cart.liquid -->
+{% comment %}
+
+  For info on test orders:
+    - General http://docs.shopify.com/manual/your-store/orders/test-orders
+    - Shopify Payments - http://docs.shopify.com/manual/more/shopify-payments/testing-shopify-payments
+
+{% endcomment %}
+
+{% include 'breadcrumbs' %}
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row">
+    <div id="main" role="main" class="col-sm-12 wrap-page">
+
+      {% if cart.item_count > 0 %}
+
+        <form action="/cart" method="post" novalidate class="cart ">
+
+          <h1>{{ 'cart.general.title' | t }}</h1>
+
+          <div class="row hidden-xs">
+            <div class="col-sm-6">
+              {{ 'cart.label.product' | t }}
+            </div>
+            <div class="col-sm-2">
+              {{ 'cart.label.price' | t }}
+            </div>
+            <div class="col-sm-2">
+              {{ 'cart.label.quantity' | t }}
+            </div>
+            <div class="col-sm-2">
+              {{ 'cart.label.total' | t }}
+            </div>
+          </div>
+
+          <hr>
+
+          {% for item in cart.items %}
+          <div class="row">
+          <div class="cart-line">
+            <div class="product-line col-sm-6">
+              <div class="cart-product-image">
+                <a href="{{ item.url | within: collections.all }}" class="cart-image">
+                  <img src="{{ item | img_url: 'small' }}" alt="{{ item.title | escape }}">
+                </a>
+              </div>
+              <div class="cart-product-text ">
+                <a href="{{ item.url }}" class="cart-product-title">
+                  {{ item.product.title }}
+                </a>
+                <span class="cart-product-option">{% if item.variant.title contains "Default" %} {% else %} {{ item.variant.title }} {% endif %}</span>
+
+                <div class="hidden-sm hidden-md hidden-lg">
+                  <div class="cart-price"><span class="money">{{ item.line_price | money }}</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="cart-price col-sm-2 hidden-xs">
+              <span class="money">{{ item.price | money }}</span>
+            </div>
+            <div class="col-sm-2 quantity-wrap">        
+              <div class="input-group quantity-group">
+                <span class="input-group-btn">
+                  <button class="btn  btn-minus" type="button">-</button>
+                </span>
+
+                <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" class="form-control quantity-selector quantity-box">
+
+                <span class="input-group-btn">
+                  <button class="btn btn-plus" type="button">+</button>
+                </span>
+              </div><!-- /input-group -->
+
+              <input type="submit" name="update" class="btn btn-default btn-update-cart" value="{{ 'cart.general.update' | t }}"/>
+            </div>
+            <div class="cart-price col-sm-2 hidden-xs">
+              <span class="money">{{ item.line_price | money }}</span>
+            </div>
+
+            <a href="/cart/change/{{ item.variant.id }}?quantity=0" class="cart-remove-item"><i class="fa fa-trash-o"></i></a>
+          </div>
+          </div>
+          <hr>
+          {% endfor %}
+
+          <div class="row" >
+            <div class="col-sm-8">
+              <div class="payment-methods-wrap"> 
+                {% if settings.payment_master == true %}
+                <i class="fa fa-cc-mastercard"></i>
+                {% endif %}
+
+                {% if settings.payment_visa == true %}
+                <i class="fa fa-cc-visa"></i>
+                {% endif %}
+
+                {% if settings.payment_amex == true %}
+                <i class="fa fa-cc-amex"></i>
+                {% endif %}
+
+                {% if settings.payment_discover == true %}
+                <i class="fa fa-cc-discover"></i>
+                {% endif %}
+
+                {% if settings.payment_paypal == true %}
+                <i class="fa fa-cc-paypal"></i>
+                {% endif %}
+
+                {% if settings.payment_bitcoin == true %}
+                <img src="{{ 'payment_method_bitcoin.svg' | asset_url }}"  />
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-sm-4 text-right">
+              {% comment %}
+                Optional, add a textarea for special notes
+                  - Your theme settings can turn this on or off. Default is on.
+                  - Make sure you have name="note" for the message to be submitted properly
+              {% endcomment %}
+              {% if settings.cart_notes_enable %}
+                <div class="grid__item large--one-half">
+                  <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+                  <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+                </div>
+              {% endif %}
+                <p>
+                  <span class="subtotal-title"><span id="bk-cart-subtotal-label">{{ 'cart.general.subtotal' | t }}</span>: </span>
+                  <span class="cart-subtotal money"><span id="bk-cart-subtotal-price">{{ cart.total_price | money }}</span></span>
+                </p>
+                <p class="shipping-info"><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+
+                <input type="submit" name="checkout" class="btn btn-default btn-large btn-checkout" value="{{ 'cart.general.checkout' | t }}">
+
+                {% if additional_checkout_buttons %}
+                  <div>{{ content_for_additional_checkout_buttons }}</div>
+                {% endif %}
+            </div>
+          </div>
+
+        </form>
+
+      {% else %}
+        {% comment %}
+          The cart is empty
+        {% endcomment %}
+        <h2>{{ 'cart.general.title' | t }}</h2>
+        <p>{{ 'cart.general.empty' | t }}</p>
+        <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+      {% endif %}
+
+    </div>
+  </div>
+</div>

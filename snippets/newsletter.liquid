@@ -1,0 +1,38 @@
+{% if settings.newsletter_popup == true %}
+  <style type="text/css">
+  .newsletter-popup .newsletter-img{background-image: url({{ 'newsletter-popup.jpg' | asset_url }})}
+  </style>
+  <div id="newsletter-modal" class="modal newsletter-popup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> </button>        
+          <div class="container-fluid">
+            <div class="row newsletter-wrap">
+
+              <div class="col-sm-4 newsletter-img col-newsletter hidden-xs"></div>
+              
+              <div class="col-sm-8 col-newsletter">
+                <h2>{{ settings.newsletter_title }}</h2>
+                <p class="rte">{{ settings.newsletter_description }}</p>
+                <form action="{{ settings.newsletter_link }}" method="post" target="_blank" >
+                  <div class="row">
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <input value="" placeholder="{{ 'general.newsletter_form.email_label' | t }}" name="EMAIL" class="form-control" aria-label="{{ 'general.newsletter_form.email_label' | t }}" type="email" />
+                      <span class="input-group-btn">
+                        <input class="btn btn-default" value="{{ 'general.newsletter_form.submit' | t }}" name="subscribe" type="submit">
+                      </span>
+                    </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

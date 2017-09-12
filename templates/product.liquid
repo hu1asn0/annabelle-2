@@ -1,0 +1,273 @@
+{% assign add_to_cart = {{ 'products.product.add_to_cart' | t }} %}
+{% assign sold_out = {{ 'products.product.sold_out' | t }} %}
+{% assign unavailable = {{ 'products.product.unavailable' | t }} %}
+
+{% include 'breadcrumbs' %}
+
+<div class="{{ settings.theme_layout_type }}">
+  <div class="row">
+    <div id="main" role="main" class="col-sm-12">
+
+      <div class="row">
+        <div id="product-page" class="product" itemscope itemtype="http://schema.org/Product">
+          <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+          <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+          
+          <form id="AddToCartForm" action="/cart/add" method="post" enctype="multipart/form-data" >
+
+            <div class="product-photos col-sm-8 col-md-9 hidden-xs">
+
+              <div class="row">
+              {% if product.images.size == 0 %}
+                <div class="product-photo-container col-sm-12">
+                  <img id="ProductPhotoImg" src="{{ '' | img_url: 'grande' }}" data-image="{{ '' | img_url: '2048x2048' }}" data-image-large="{{ featured_image | img_url: '2048x2048' }}" alt="" class="img-responsive" />
+                </div>
+              {% else %}
+
+                {% if product.images.size > 1 %}
+                <div class="product-photo-thumbs-wrap col-sm-2">
+                  <div class="product-thumbs-carousel">
+                    <ul class="product-photo-thumbs">
+                      {% for image in product.images %}
+                      <li class="product-photo-thumb">
+                        <img src="{{ image | img_url: 'compact' }}" alt="{{ image.alt | escape }}" class="img-responsive" data-image="{{ image | img_url: 'grande' }}" data-image-large="{{ image | img_url: '2048x2048' }}" />
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  
+                  <a class="sqrlcarousel-next sqrlcarousel-control" href="#"><i class="fa fa-angle-down"></i>
+                  <a class="sqrlcarousel-prev sqrlcarousel-control" href="#"><i class="fa fa-angle-up"></i></a>
+                </div>
+                {% endif %}
+
+                {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image  %}          
+                <div class="product-photo-container col-sm-10 ">
+                  <img class="ProductPhotoImg" src="{{ featured_image | img_url: 'grande' }}" data-image-large="{{ featured_image | img_url: '2048x2048' }}" alt="{{ featured_image.alt | escape }}"  class="img-responsive" />
+                </div>
+              {% endif %}
+
+              </div>
+            </div>
+
+            <div id="mobile-product-photos" class="col-xs-12">
+              {% if product.images.size == 0 %}
+                <div class="mobile-product-photo-container">
+                  <img data-image="{{ '' | img_url: '2048x2048' }}" src="{{ '' | img_url: 'grande' }}" alt="" class="ProductPhotoImg img-responsive" />
+                </div>
+              {% else %}
+                {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}          
+                <div class="mobile-product-photo-container">
+                  {% for img in product.images %}
+                    <div><img class="ProductPhotoImg img-responsive owl-lazy" data-src="{{ img | img_url: 'large' }}" alt="{{ product.title | escape }}" /></div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- .product-photos -->
+            
+            <div class="col-sm-4 col-md-3">
+              <div class="product-details">
+                {% if collection %}
+                  {% if collection.previous_product or collection.next_product %}
+                  <div class="product-navigation">     
+                  {% if collection.previous_product %}
+                    {% capture prev_url %}{{ collection.previous_product}}#content{% endcapture %}
+                    <span class="left">{{ '<i class="fa fa-angle-left"></i>' | link_to: prev_url }}</span>
+                  {% endif %}
+                  {% if collection.next_product %}
+                    {% capture next_url %}{{ collection.next_product}}#content{% endcapture %}
+                    <span class="right">{{ '<i class="fa fa-angle-right"></i>' | link_to: next_url }}</span>
+                  {% endif %}
+                  </div>
+                  {% endif %}
+                {% endif %}
+
+                <h1 itemprop="name" class="product-name">{{ product.title }}</h1>
+                
+                {% assign product_vendor_handle = product.vendor | handle %}
+                {% comment %}
+                Do we have a collection that has the same name as our product vendor name?
+                If we do, let's have the vendor link point to it.
+                If not, we will point to the automatic vendor collection.
+                {% endcomment %}
+                {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+                  {% assign vendor_url = collections[product_vendor_handle].url %}
+                {% else %}
+                  {% assign vendor_url = product.vendor | url_for_vendor %}
+                {% endif %}
+                <h2 itemprop="brand" class="brand">{{ product.vendor | link_to: vendor_url }}</h2>
+                
+                <div id="product-price-wrap" itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="delta">
+                  <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+                  {% if product.available %}
+                  <link itemprop="availability" href="http://schema.org/InStock" />
+                  {% else %}
+                  <link itemprop="availability" href="http://schema.org/OutOfStock" />
+                  {% endif %}
+                    {% assign variant = product.selected_or_first_available_variant %}
+                    {% if product.compare_at_price > product.price %}
+                    <span id="ProductPrice" class="product-price on-sale  money" itemprop="price">{{ variant.price | money }}</span>
+                    <span id="ComparePrice" class="compare-at-price  money">{{ variant.compare_at_price | money }}</span>
+                    {% else %}
+                    <span id="ProductPrice" class="product-price  money" itemprop="price">{{ variant.price | money }}</span>
+                    {% endif %}
+                </div>
+                
+                {% assign hide_default_title = false %}
+                {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                  {% assign hide_default_title = true %}
+                {% endif %}
+
+                <div id="product-variants" style="display:none" class="{% if hide_default_title %} hidden{% endif %}">
+                  <select id="product-select" name="id" class="form-control single-option-selector">
+                  {% for variant in product.variants %}
+                    <option {% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">
+                    {{ variant.title }} - {{ variant.price | money }}
+                    </option>
+                  {% endfor %}
+                  </select>
+                </div> 
+
+
+                {% if product.available and product.variants.size > 1 %}
+                  {% for option in product.options %}
+                    {% include 'swatch' with option %}
+                  {% endfor %}
+                {% endif %}       
+                       
+                <div id="backorder" class="hidden">
+                  <p>{{ '%s is back-ordered. We will ship it separately in 10 to 15 days.' | replace: '%s', '<span id="selected-variant"></span>' }}</p>
+                </div>
+
+                <div id="quantity-section">
+                  <label for="Quantity" class="quantity-selector swatch-title">{{ 'products.product.quantity' | t }}:</label>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="input-group quantity-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-minus" type="button">-</button>
+                        </span>
+
+                        <input type="text" id="Quantity" name="quantity" value="1" min="1" class="form-control quantity-selector quantity-box" placeholder="Qty.">
+
+                        <span class="input-group-btn">
+                          <button class="btn  btn-plus" type="button">+</button>
+                        </span>
+                      </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
+                  </div><!-- /.row -->
+                </div>
+
+                <div id="product-add">
+                  <button name="add" id="AddToCart" class="btn btn-default btn-large"> <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span></button>
+                </div>
+
+                <ul class="guarantee">
+                  {{ settings.below_add_to_cart }}
+                </ul>
+                
+              </div><!-- .product-details -->
+            </div>
+
+          </form>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <ul class="product-social-icons col-sm-12">
+
+          {% if settings.share_mail %}
+          <li><a target="_blank" href="mailto:?to=&body={{ shop.url }}{{ product.url }}&amp;subject=Chekout this page" class="mailtofriend"><i class="fa fa-envelope-o "></i> MAIL TO A FRIEND</a></li>
+          {% endif %}
+
+          {% if settings.share_twitter %}
+          <li><a target="_blank" target="_blank" href="https://twitter.com/intent/tweet?source={{ shop.url }}{{ product.url }}"><i class="fa fa-twitter-square"></i> TWITTER</a></li>
+          {% endif %}
+
+          {% if settings.share_fb %}
+          <li><a target="_blank" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ product.url }}"><i class="fa fa-facebook-square"></i> FACEBOOK</a></li>
+          {% endif %}
+
+          {% if settings.share_pinterest %}
+          <li><a target="_blank" target="_blank" href="http://pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}"><i class="fa fa-pinterest-square"></i> PINTEREST</a></li>
+          {% endif %}
+
+          {% if settings.share_gplus %}
+          <li><a target="_blank" href="https://plus.google.com/share?url={{ shop.url }}{{ product.url }}"><i class="fa fa-google-plus-square"></i> GOOGLE PLUS</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      {% assign css_class_description = "col-sm-4 col-md-5" %}
+      {% assign css_class_custom = "col-sm-4 col-md-4" %}
+      {% assign css_class_reviews = "col-sm-4 col-md-3" %}
+
+      {% if settings.layout_type == "1" %}
+        {% assign css_class_description = "col-sm-12" %}
+        {% assign css_class_custom = "" %}
+        {% assign css_class_reviews = "" %}
+      {% elsif settings.layout_type == "2" %}
+        {% assign css_class_description = "col-sm-6" %}
+        {% assign css_class_custom = "col-sm-6" %}
+        {% assign css_class_reviews = "" %}
+      {% endif %}
+
+      <div class="row product-info">
+        <div id="product-description" class="rte {{ css_class_description }}">
+          <h2>{{ 'products.general.description' | t }}</h2>
+          <div itemprop="description">{{  product.description }}</div>
+        </div>
+
+        {% if settings.layout_type == "2" or settings.layout_type == "3" %}
+
+          <div id="additional-info" class="rte {{ css_class_custom }}">
+            {% capture size_chart_html %}<p class="size-chart-wrap"><a href="#"><img src="{{ 'sizechart_small.jpg' | asset_url }}" /></a></p>{% endcapture %}
+            {{ settings.custom_column | replace: '%SIZECHART%', size_chart_html }}
+          </div>
+
+          {% if settings.layout_type == "3" %}
+            <div class="rte {{ css_class_reviews }}">
+              {% comment %}
+                All themes by Shopify should support the Product Reviews app out of the box.
+                https://apps.shopify.com/product-reviews
+              {% endcomment %}
+              <div id="shopify-product-reviews" data-id="{{ product.id }}">{{ product.metafields.spr.reviews }}</div>
+            </div>
+          {% endif %}
+
+        {% endif %}
+      </div>
+
+      {% if settings.show_related_products == true %}
+        {% include 'related-products' %}
+      {% endif %}
+
+      {% if settings.instagram_access_token != "" and settings.show_instagram_product_photos == true %}
+        {% include 'instagram-product-photos' %}
+      {% endif %}
+
+
+    </div>  
+  </div>
+</div>
+
+{% comment %}
+  Adding support for product options. See here for details:  
+  http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
+{% endcomment %}
+
+<script>
+jQuery(function($) {
+  jQuery(document).ready(function() {
+    new Shopify.OptionSelectors('product-select', { product:{{ product | json }}, onVariantSelected: window.selectCallback, enableHistoryState: true } );
+
+    // Add label if only one product option and it isn't 'Title'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');
+    {% endif %}
+  });
+});
+</script>

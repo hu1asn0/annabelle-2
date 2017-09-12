@@ -1,0 +1,30 @@
+<nav id="breadcrumb" class="navbar navbar-static-top navigation-default">
+  <div class="{{ settings.theme_layout_type }}">
+    <ol class="breadcrumb">
+      <li class="homepage-link">
+        <a href="{{ shop.url }}" title="Back to the frontpage">{{ 'general.breadcrumbs.home' | t }}</a>
+      </li>
+      {% if template contains "product" %}
+        {% if collection %}
+          <li>
+            {% if collection.handle %}
+              {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+              {{ collection.title | link_to: url }}
+            {% elsif collection.all_products_count > 0 and collection.products.first.type == collection.title %}
+              {{ collection.title | link_to_type }}
+            {% elsif collection.all_products_count > 0 and collection.products.first.vendor == collection.title %}
+              {{ collection.title | link_to_vendor }}
+            {% endif %}
+          </li>
+      {% else %}
+        <li> {{ product.type | link_to_type }} </li>
+      {% endif %}
+      {% elsif template == "article" %}</li>
+        <li>{{ blog.title | link_to: blog.url }}</li>
+      {% endif %}
+      <li class="current">
+        <a href="#">{{ page_title }}</a>
+      </li>
+    </ol>
+  </div>
+</nav>
